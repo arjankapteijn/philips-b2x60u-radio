@@ -1,0 +1,12 @@
+# ~pi/.config/systemd/user/soloist-update.timer - weekly, at night; a build
+# lasts 90 days, so a missed week or two does no harm
+[Unit]
+Description=Weekly Spotify Soloist update
+
+[Timer]
+OnCalendar=Mon 04:30
+RandomizedDelaySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

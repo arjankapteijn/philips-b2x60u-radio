@@ -1,0 +1,31 @@
+# ~pi/.config/systemd/user/soloist.service - Spotify Soloist (Spotify Connect)
+#
+# A user service, because Soloist plays through PipeWire, which runs in the
+# session of user pi; "loginctl enable-linger pi" starts that session at boot.
+# The API key is in ~/.config/soloist/soloist.env (SOLOIST_API_KEY=..., mode 600).
+
+[Unit]
+Description=Spotify Soloist (Spotify Connect)
+Wants=pipewire.service wireplumber.service network-online.target
+After=pipewire.service wireplumber.service network-online.target
+
+[Service]
+EnvironmentFile=%h/.config/soloist/soloist.env
+# The Pi has no battery clock and boots with the last saved time; Spotify
+# refuses a login with a clock that is far off, and Soloist does not try again.
+# So wait (at most 3 minutes) until timesyncd has set the clock. A user service
+# cannot order itself after the system's time-sync.target, hence the loop.
+ExecStartPre=/bin/sh -c 'for i in $$(seq 90); do [ "$$(timedatectl show -p NTPSynchronized --value)" = yes ] && exit 0; sleep 2; done'
+TimeoutStartSec=240
+# Data in ~/.local/share/soloist and cache in ~/.cache/soloist, the defaults
+# that "soloist ctl" also uses. The WebSocket API on a fixed local port is for
+# radio-knobs.
+ExecStart=/usr/local/bin/soloist --device-name "Philips B2X60U" --api-key ${SOLOIST_API_KEY} \
+    --pipewire-device radio --ws 127.0.0.1:3679 --cache-size 500
+Restart=on-failure
+RestartSec=5
+# 10 = this build has expired; soloist-update installs a newer one
+RestartPreventExitStatus=10
+
+[Install]
+WantedBy=default.target

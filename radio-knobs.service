@@ -1,0 +1,16 @@
+[Unit]
+Description=Philips B2X60U knobs and status LED
+# Soloist runs as a user service of pi (see soloist.service); radio-knobs keeps
+# reconnecting to its WebSocket, so no ordering is needed
+
+[Service]
+User=pi
+WorkingDirectory=/var/lib/radio-knobs
+StateDirectory=radio-knobs
+StateDirectoryMode=0755
+ExecStart=/usr/bin/python3 /usr/local/bin/radio-knobs
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

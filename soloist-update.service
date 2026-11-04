@@ -1,0 +1,9 @@
+# ~pi/.config/systemd/user/soloist-update.service - see soloist-update.sh
+[Unit]
+Description=Install the newest Spotify Soloist build
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/soloist-update

@@ -1,0 +1,6 @@
+# /var/lib/radio-knobs/favourites - playlists for the right knob, in order
+#
+# One per line: spotify:playlist:ID or a share link (https://open.spotify.com/playlist/...).
+# Text after "#" is a comment. Easiest: play a playlist and hold the right knob
+# for 3 seconds; it is added here (the LED blinks three times).
+spotify:playlist:37i9dQZF1DXcBWIGoYBM5M  # example: Today's Top Hits
