@@ -37,6 +37,7 @@ settings = {
     "TRANSITIONS_PER_DETENT": "4",  # 4 for full-step encoders such as the PEC11 here, 2 for half-step
     "VOLUME_STEP": "4",             # Spotify volume steps per detent (out of 100)
     "HOLD_TIME": "3",               # seconds for a long press
+    "SHUFFLE": "yes",               # start favourites in shuffle mode
     "FAVOURITES": "/var/lib/radio-knobs/favourites",
     "STATE": "/var/lib/radio-knobs/current",
     "POWEROFF": "sudo -n systemctl poweroff",
@@ -140,10 +141,17 @@ class Soloist:
         self.command("set_volume", volume=volume)
         self.on_change()
 
-    def play(self, uri):
+    def play(self, uri, shuffle=False):
         if not self.get("is_active"):
             self.command("activate")
-        return self.command("play", uri=uri)
+        if not shuffle:
+            return self.command("play", uri=uri)
+        # Shuffle before playing, so the playlist starts at a random track, and
+        # again after, in case Soloist ignored the first one while idle
+        self.command("set_shuffle", enabled=True)
+        ok = self.command("play", uri=uri)
+        self.command("set_shuffle", enabled=True)
+        return ok
 
 
 player = None
@@ -193,7 +201,7 @@ def play_favourite(index):
     index %= len(uris)
     store_index(index)
     log.info("favourite %d: %s", index + 1, uris[index])
-    return player.play(uris[index])
+    return player.play(uris[index], shuffle=yes("SHUFFLE"))
 
 
 def add_favourite():

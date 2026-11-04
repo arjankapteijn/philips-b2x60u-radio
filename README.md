@@ -66,7 +66,7 @@ Soloist, PipeWire and the update timer run as **user services** of `pi`, and `lo
 
 ## Configuration
 
-- **`/etc/radio-knobs.conf`** holds the pins, `LEFT_INVERT` / `RIGHT_INVERT` (set these if a knob turns the wrong way), `VOLUME_STEP` and `HOLD_TIME`. Run `sudo systemctl restart radio-knobs` after a change.
+- **`/etc/radio-knobs.conf`** holds the pins, `LEFT_INVERT` / `RIGHT_INVERT` (set these if a knob turns the wrong way), `VOLUME_STEP`, `HOLD_TIME` and `SHUFFLE` (favourites start shuffled, default `yes`). Run `sudo systemctl restart radio-knobs` after a change.
 - **`/var/lib/radio-knobs/favourites`** has one playlist per line (`spotify:playlist:…` or a share link). The easiest way to fill it is to play a playlist and hold the right knob for 3 seconds.
 
 ## Things to know about Soloist
