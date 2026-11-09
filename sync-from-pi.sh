@@ -15,6 +15,7 @@ radio-knobs.conf:/etc/radio-knobs.conf
 radio-knobs.service:/etc/systemd/system/radio-knobs.service
 pipewire-radio.conf:/etc/pipewire/pipewire.conf.d/radio.conf
 wireplumber-radio.conf:/etc/wireplumber/wireplumber.conf.d/radio.conf
+timesyncd-cloudflare.conf:/etc/systemd/timesyncd.conf.d/10-cloudflare.conf
 soloist.service:/home/pi/.config/systemd/user/soloist.service
 soloist-update.sh:/usr/local/bin/soloist-update
 soloist-update.service:/home/pi/.config/systemd/user/soloist-update.service

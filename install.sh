@@ -33,6 +33,10 @@ echo "== PipeWire sinks (mono mix to the DAC)"
 sudo install -D -m 644 pipewire-radio.conf /etc/pipewire/pipewire.conf.d/radio.conf
 sudo install -D -m 644 wireplumber-radio.conf /etc/wireplumber/wireplumber.conf.d/radio.conf
 
+echo "== Time sync (Soloist waits for it at boot)"
+sudo install -D -m 644 timesyncd-cloudflare.conf /etc/systemd/timesyncd.conf.d/10-cloudflare.conf
+sudo systemctl restart systemd-timesyncd
+
 echo "== Spotify Soloist"
 sudo install -m 755 soloist-update.sh /usr/local/bin/soloist-update
 install -d ~/.config/systemd/user

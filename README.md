@@ -73,7 +73,7 @@ Soloist, PipeWire and the update timer run as **user services** of `pi`, and `lo
 
 - **The key stays out of git.** It lives only in `~/.config/soloist/soloist.env` (mode 600). Soloist takes the key as a command-line argument, so `ps` shows it to local users.
 - **Builds expire.** Each Soloist build stops working 90 days after its build date (exit code 10). `soloist-update.timer` runs every Monday night: it downloads the latest build from Spotify and restarts Soloist when the version changes. Spotify's terms forbid redistributing the binary, so it isn't in this repo.
-- **Clock sync:** the Pi has no battery-backed clock. With a clock that is far off, Spotify rejects the login (`login failed: make sure --api-key is valid`) and Soloist doesn't retry. To prevent that, `soloist.service` waits up to 3 minutes for timesyncd before it starts.
+- **Clock sync:** the Pi has no battery-backed clock. With a clock that is far off, Spotify rejects the login (`login failed: make sure --api-key is valid`) and Soloist doesn't retry. To prevent that, `soloist.service` waits up to 3 minutes for timesyncd before it starts. The knobs do nothing until then. `timesyncd-cloudflare.conf` points timesyncd at `time.cloudflare.com`: with the default Debian pool the first sync came 12–24 s after the network was up (one pool server over IPv6 timed out); Cloudflare answers in under 10 ms.
 
 ```bash
 soloist ctl status
